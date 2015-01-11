@@ -4,15 +4,7 @@
 <:Body>
   <div class="row">
     <div class="col-md-4">
-      <h1>{{ _subdrafts.size }} subdrafts</h1>
-
-      <button e-click="check_all">Check All ({{ incomplete }})</button>
-
-      <div class="progress">
-        <div class="progress-bar" role="progressbar" style="width: {{ percent_complete }}%;">
-          {{ percent_complete }}
-        </div>
-      </div>
+      <h1>Subdrafts</h1>
 
       <form e-submit="add_subdraft" role="form">
         <div class="form-group">
@@ -25,7 +17,6 @@
     <table class="subdraft-table">
       {{ _subdrafts.each do |subdraft| }}
         <tr e-click="params._index = index" class="{{ if params._index.or(0).to_i == index }}selected {{ end }}">
-          <td><input type="checkbox" checked="{{ subdraft._completed }}" /></td>
           <td class="{{ if subdraft._completed }}complete{{ end }}">{{ subdraft._name }}</td>
           <td><button e-click="remove_subdraft(subdraft)">X</button></td>
         </tr>
@@ -34,9 +25,30 @@
     
     <div class="col-md-8">
       {{ if current_subdraft }}
-      <h2>{{ current_subdraft._name }}</h2>
+      <h2>Text</h2>
       
       <textarea>{{ current_subdraft._text }}</textarea>
+      
+      <form e-submit="add_tag(current_subdraft)" role="form">
+        <div class="form-group">
+          <label>New tag</label>
+          <input class="form-control" type="text" value="{{ _new_subdraft_tag }}" />
+        </div>
+      </form>
+      
+      <h2>Tags</h2>
+
+      <table class="subdraft-table">
+        {{ current_subdraft._tags.each do |tag| }}
+          <tr>
+            <td>{{ tag._name }}</td>
+            <td>{{ current_subdraft._name }}</td>
+            <td><button e-click="remove_tag(tag)">X</button></td>
+          </tr>
+        {{ end }}
+      </table>
+      
       {{ end }}
     </div>
+    
   </div>

@@ -34,24 +34,17 @@ class MainController < Volt::ModelController
     _subdrafts.delete(subdraft)
   end
   
+  def add_tag(subdraft)
+    subdraft._tags << { name: _new_subdraft_tag }
+    _new_subdraft_tag = ''
+  end
+  
+  def remove_tag(tag)
+    _tags.delete(tag)
+  end
+  
   def current_subdraft
     _subdrafts[params._index.or(0).to_i]
-  end
-  
-  def check_all
-    _subdrafts.each { |subdraft| subdraft._completed = true }
-  end
-  
-  def completed
-    _subdrafts.count { |s| s._completed }
-  end
-
-  def incomplete
-    _subdrafts.size - completed
-  end
-  
-  def percent_complete
-    (completed / _subdrafts.size.to_f * 100).round
   end
   
 end
