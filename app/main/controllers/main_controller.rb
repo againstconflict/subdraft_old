@@ -34,6 +34,10 @@ class MainController < Volt::ModelController
     _subdrafts.delete(subdraft)
   end
   
+  def current_subdraft
+    _subdrafts[params._subdraft_index.or(0).to_i]
+  end
+  
   def add_tag(subdraft)
     subdraft._tags << { name: _new_subdraft_tag }
     _new_subdraft_tag = ''
@@ -43,8 +47,21 @@ class MainController < Volt::ModelController
     _tags.delete(tag)
   end
   
-  def current_subdraft
-    _subdrafts[params._index.or(0).to_i]
+  def current_tag
+    _tags[params._tag_index.or(0).to_i]
+  end
+  
+  def add_trait(tag)
+    tag._traits << { name: _new_trait }
+    _new_trait = ''
+  end
+  
+  def remove_trait(trait)
+    _traits.delete(trait)
+  end
+  
+  def current_trait
+    _traits[params._trait_index.or(0).to_i]
   end
   
 end

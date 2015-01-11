@@ -12,43 +12,70 @@
           <input class="form-control" type="text" value="{{ _new_subdraft }}" />
         </div>
       </form>
-    </div>
+
 
     <table class="subdraft-table">
       {{ _subdrafts.each do |subdraft| }}
-        <tr e-click="params._index = index" class="{{ if params._index.or(0).to_i == index }}selected {{ end }}">
+        <tr e-click="params._subdraft_index = index" class="{{ if params._subdraft_index.or(0).to_i == index }} selected {{ end }}">
           <td class="{{ if subdraft._completed }}complete{{ end }}">{{ subdraft._name }}</td>
           <td><button e-click="remove_subdraft(subdraft)">X</button></td>
         </tr>
       {{ end }}
     </table>
     
+    </div>
+    
     <div class="col-md-8">
       {{ if current_subdraft }}
-      <h2>Text</h2>
+        
+        <h2>Text</h2>
       
-      <textarea>{{ current_subdraft._text }}</textarea>
+        <textarea>{{ current_subdraft._text }}</textarea>
       
-      <form e-submit="add_tag(current_subdraft)" role="form">
-        <div class="form-group">
-          <label>New tag</label>
-          <input class="form-control" type="text" value="{{ _new_subdraft_tag }}" />
-        </div>
-      </form>
+        <form e-submit="add_tag(current_subdraft)" role="form">
+          <div class="form-group">
+            <label>New tag</label>
+            <input class="form-control" type="text" value="{{ _new_subdraft_tag }}" />
+          </div>
+        </form>
       
-      <h2>Tags</h2>
+        <h2>Tags</h2>
 
-      <table class="subdraft-table">
-        {{ current_subdraft._tags.each do |tag| }}
-          <tr>
-            <td>{{ tag._name }}</td>
-            <td>{{ current_subdraft._name }}</td>
-            <td><button e-click="remove_tag(tag)">X</button></td>
-          </tr>
+        <table class="subdraft-table">
+          {{ current_subdraft._tags.each do |tag| }}
+            <tr e-click="params._tag_index = index" class="{{ if params._tag_index.or(0).to_i == index}} selected {{ end }}">
+              <td>{{ tag._name }}</td>
+              <td><button e-click="remove_tag(tag)">X</button></td>
+            </tr>
+          {{ end }}
+        </table>
+      
+        {{ if current_tag }}
+        
+          <form e-submit="add_trait(current_tag)" role="form">
+            <div class="form-group">
+              <label>New trait</label>
+              <input class="form-control" type="text" value="{{ _new_trait }}" />
+            </div>
+          </form>
+      
+          <h2>Traits</h2>
+      
+          <table class="subdraft-table">
+            {{ current_tag._traits.each do |trait| }}
+              <tr e-click="params._trait_index = index" class="{{ if params._trait_index.or(0).to_i == index}} selected {{ end }}">
+                <td>{{ trait._name }}</td>
+                <td><button e-click="remove_trait(trait)">X</button></td>
+              </tr>
+            {{ end }}
+          </table>
+      
+          <textarea>{{ current_trait._text }}</textarea>
+        
         {{ end }}
-      </table>
       
       {{ end }}
+
     </div>
     
   </div>
